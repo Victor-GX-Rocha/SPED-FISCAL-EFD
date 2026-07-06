@@ -39,7 +39,7 @@ def verificar_elemento(img_path: str, confidence: float = 0.9) -> bool:
         nome_imagem: str = img_path#.split('\\')[-2]
         print(f"Erro: Imagem {nome_imagem} não está visível na tela.")
 
-def espere_por_elemento():...
+def espere_elemento():...
 def espere_elemento_sumir(
         img_path: str, 
         confidence: float = 0.9, 

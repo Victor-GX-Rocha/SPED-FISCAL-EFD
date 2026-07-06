@@ -43,6 +43,15 @@ class EfdNavigator:
         if espere:
             time.sleep(espere)
         pag.hotkey('alt', 'f4')
-
+    
+    @staticmethod
+    def atualizar_tabelas(espere: float = 0, espere_ataulizar: float = 1.5) -> None:
+        """ Abre uma escrituração através do comando CTRL + I """
+        if espere:
+            time.sleep(espere)
+        pag.hotkey('ctrl', 'shift', 'z')
+        
+        time.sleep(espere_ataulizar)
+        pag.press('enter')
 
 
