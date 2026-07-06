@@ -1,0 +1,8 @@
+.env
+.venv
+**/__pycache__/
+fast_test.py
+docs
+*.log
+*.ipynb
+*.txt
