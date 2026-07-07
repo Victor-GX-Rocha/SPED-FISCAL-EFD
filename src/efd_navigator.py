@@ -16,7 +16,7 @@ class EfdNavigator:
     
     @staticmethod
     def fechar_escrituracao(espere: float = 0) -> None:
-        """ Abre uma escrituração através do comando CTRL + I """
+        """ Fechauma escrituração através do comando CTRL + F """
         if espere:
             time.sleep(espere)
         pag.hotkey('ctrl', 'f')
@@ -48,9 +48,11 @@ class EfdNavigator:
     def atualizar_tabelas(espere: float = 0, espere_ataulizar: float = 1.5) -> None:
         """ Abre uma escrituração através do comando CTRL + I """
         if espere:
+            print('Esperando antes de atualizar a tabela')
             time.sleep(espere)
         pag.hotkey('ctrl', 'shift', 'z')
         
+        print('Esperando antes de fechar a tabela')
         time.sleep(espere_ataulizar)
         pag.press('enter')
 

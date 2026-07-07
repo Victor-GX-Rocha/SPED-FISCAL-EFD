@@ -3,6 +3,9 @@
 **/__pycache__/
 fast_test.py
 docs
+processado
+erro
+old
 *.log
 *.ipynb
 *.txt

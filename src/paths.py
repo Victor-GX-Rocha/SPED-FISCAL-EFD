@@ -4,6 +4,8 @@ import shutil
 import pyautogui as pag
 from dataclasses import dataclass
 
+from src.env_data import DestinyFolders
+
 pag.FAILSAFE = True
 
 
@@ -11,10 +13,6 @@ def normalize_path(path: str) -> str:
     """  """
     return path.strip().replace("'", "").replace('"', '').replace('\\', '/')
 
-@dataclass
-class DestinyFolders:#(enum.Enum):
-    PROCESSADO: str = 'processado'
-    ERRO: str = 'erro'
 
 @dataclass
 class ImgPaths:
@@ -25,6 +23,7 @@ class ImgPaths:
     escrituracao_fiscal: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\Escrituracao_fiscal.png')
     importacao_nao_realizada: str = r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\importacao_nao_realizada.png'
     arquivo_nao_encontrado: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\arquivo_nao_encontrado.png')
+    arquivo_nao_encontrado2: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\arquivo_nao_encontrado2.png')
     atualizar_tabelas: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\atualizar_tabelas.png')
     validado_com_sucesso: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\validado_com_sucesso.png')
 
@@ -53,7 +52,6 @@ def mover_arquivo(file_path: str, dest_dir: DestinyFolders):
         raise
 
 __all__ = [
-    "DestinyFolders",
     "ImgPaths",
     "mover_arquivo"
 ]

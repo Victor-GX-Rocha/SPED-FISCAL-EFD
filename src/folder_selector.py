@@ -1,79 +1,97 @@
-# folder_selector.py
+"""Manages the capture of folder paths for execution."""
+
 import tkinter as tk
 from tkinter import filedialog, messagebox, Listbox, Scrollbar, MULTIPLE, END
 
-def select_folders():
-    """Abre uma janela para selecionar uma ou mais pastas e retorna uma lista de caminhos."""
-    root = tk.Tk()
-    root.title("Selecionar Pastas para Processamento")
-    root.geometry("500x400")
-    root.attributes('-topmost', True)
+class FolderSelector:
+    def __init__(self):
+        self.selected_folders: list[str] = []
+        self.__build_window()
+        self.__build_main_frame()
+        self.__add_buttons()
+        self.__add_instructions()
+        
+    @classmethod
+    def get_folders(cls) -> list[str]:
+        """Facade method to initialize and return folders in a single line."""
+        selector = cls()
+        return selector.run()
 
-    # Frame principal
-    main_frame = tk.Frame(root)
-    main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+    def run(self) -> list[str]:
+        """Starts the interface loop and returns the selected paths."""
+        self.root.mainloop()
+        return self.selected_folders
+    
+    def __build_window(self) -> None:
+        self.root = tk.Tk()
+        self.root.title("Selecionar Pastas para Processamento")
+        self.root.geometry("500x400")
+        self.root.attributes('-topmost', True)
+    
+    def __build_main_frame(self) -> None:
+        self.main_frame = tk.Frame(self.root)
+        self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        self.listbox = Listbox(self.main_frame, selectmode=MULTIPLE, height=10)
+        self.listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        # Correção: Mudado para side=tk.RIGHT para o scroll ficar no lugar certo
+        self.scrollbar = Scrollbar(self.main_frame, orient=tk.VERTICAL, command=self.listbox.yview)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.listbox.config(yscrollcommand=self.scrollbar.set)
+        
+        self.btn_frame = tk.Frame(self.root)
+        self.btn_frame.pack(fill=tk.X, padx=10, pady=5)
+        
+    def __add_buttons(self) -> None:
+        self.btn_add = tk.Button(self.btn_frame, text="Adicionar Pasta", command=self.add_folder)
+        self.btn_add.pack(side=tk.LEFT, padx=5)
+        
+        self.btn_remove = tk.Button(self.btn_frame, text="Remover Selecionada(s)", command=self.remove_selecteds)
+        self.btn_remove.pack(side=tk.LEFT, padx=5)
+        
+        self.btn_confirm = tk.Button(self.btn_frame, text="Confirmar", command=self.confirm)
+        self.btn_confirm.pack(side=tk.RIGHT, padx=5)
 
-    # Listbox para exibir as pastas selecionadas
-    listbox = Listbox(main_frame, selectmode=MULTIPLE, height=10)
-    listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-
-    # Scrollbar
-    scrollbar = Scrollbar(main_frame, orient=tk.VERTICAL, command=listbox.yview)
-    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-    listbox.config(yscrollcommand=scrollbar.set)
-
-    # Frame para botões
-    btn_frame = tk.Frame(root)
-    btn_frame.pack(fill=tk.X, padx=10, pady=5)
-
-    def adicionar_pasta():
-        pasta = filedialog.askdirectory(
+    def __add_instructions(self) -> None:
+        self.label = tk.Label(self.root, text="Adicione as pastas que contêm os arquivos fiscais.", font=("Arial", 10))
+        self.label.pack(pady=5)
+        
+    def add_folder(self) -> None:
+        folder: str = filedialog.askdirectory(
             title="Selecione uma pasta com arquivos fiscais",
             mustexist=True
         )
-        if pasta:
-            # Verifica se já não está na lista
-            if pasta not in listbox.get(0, END):
-                listbox.insert(END, pasta)
-            else:
-                messagebox.showinfo("Aviso", "Esta pasta já foi adicionada.")
-
-    def remover_selecionadas():
-        selecionados = listbox.curselection()
-        if not selecionados:
+        
+        if not folder:
+            return
+        
+        if folder in self.listbox.get(0, END):
+            messagebox.showinfo("Aviso", "Esta pasta já foi adicionada.")
+            return 
+        
+        self.listbox.insert(END, folder)
+    
+    def remove_selecteds(self) -> None:
+        selecteds = self.listbox.curselection()
+        
+        if not selecteds:
             messagebox.showwarning("Aviso", "Nenhuma pasta selecionada para remover.")
             return
-        # Remove de trás para frente para não alterar índices
-        for idx in reversed(selecionados):
-            listbox.delete(idx)
-
-    def confirmar():
-        pastas = list(listbox.get(0, END))
-        if not pastas:
+        
+        for idx in reversed(selecteds):
+            self.listbox.delete(idx)
+    
+    def confirm(self) -> None:
+        folders = list(self.listbox.get(0, END))
+        
+        if not folders:
             messagebox.showwarning("Aviso", "Nenhuma pasta selecionada.")
             return
-        root.destroy()
-        root.pastas_selecionadas = pastas  # Guarda o resultado
-
-    # Botões
-    btn_adicionar = tk.Button(btn_frame, text="Adicionar Pasta", command=adicionar_pasta)
-    btn_adicionar.pack(side=tk.LEFT, padx=5)
-
-    btn_remover = tk.Button(btn_frame, text="Remover Selecionada(s)", command=remover_selecionadas)
-    btn_remover.pack(side=tk.LEFT, padx=5)
-
-    btn_confirmar = tk.Button(btn_frame, text="Confirmar", command=confirmar)
-    btn_confirmar.pack(side=tk.RIGHT, padx=5)
-
-    # Instruções
-    label = tk.Label(root, text="Adicione as pastas que contêm os arquivos fiscais.", font=("Arial", 10))
-    label.pack(pady=5)
-
-    root.mainloop()
-
-    # Após o fechamento, retorna a lista armazenada, se existir
-    return getattr(root, 'pastas_selecionadas', [])
+        
+        self.selected_folders = folders
+        self.root.destroy()
 
 if __name__ == "__main__":
-    pastas = select_folders()
+    pastas = FolderSelector.get_folders()
     print("Pastas selecionadas:", pastas)

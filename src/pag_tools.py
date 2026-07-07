@@ -33,20 +33,24 @@ class PagTools:
         ) -> bool:
         """ Espera até que um elemento surja na tela. """
         try:
+            print('Iniciando espera por elemento')
             start = time.time()
             
             while time.time() - start < limite_espera:
-                exists = pag.locateCenterOnScreen(img_path, confidence=confidence)
-                if exists:
-                    return True
+                try:
+                    exists = pag.locateCenterOnScreen(img_path, confidence=confidence)
+                    if exists:
+                        return True
+                except pag.ImageNotFoundException:
+                    pass
                 time.sleep(intervalo_espera)
             else:
                 raise TimeoutError(f'Tempo de espera de {limite_espera} para | {img_path} | excedido!')
         except TimeoutError as t:
-            log.dev.error(t)
+            log.dev.error(f"{img_path} | TimeoutError: {str(t)}")
             return False
         except Exception as e:
-            log.dev.error(f"Erro inesperado durante espera por elemento! | {img_path} | {e}")
+            log.dev.exception(f"Erro inesperado durante espera por elemento! | {img_path} | {e}")
 
     def espere_elementos(
             self,
