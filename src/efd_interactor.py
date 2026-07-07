@@ -107,7 +107,7 @@ class EfdInteractor:
         
         print('Clicando na tela inicial antes de atualizar as tabelas')
         # pag.click(self.img_path.tela_inicial)
-        self.navigator.atualizar_tabelas()
+        # self.navigator.atualizar_tabelas()
         
         if self.pag_tools.espere_elemento(self.img_path.tela_inicial, limite_espera=40):
             self._selecionar_arquivo_escrituracao(file_path)
@@ -121,7 +121,8 @@ class EfdInteractor:
                 
                 self.img_path.importacao_nao_realizada,
                 self.img_path.arquivo_nao_encontrado,
-                self.img_path.arquivo_nao_encontrado2
+                self.img_path.arquivo_nao_encontrado2,
+                self.img_path.erro
                 ],
             limite_espera=120
         )
@@ -142,8 +143,10 @@ class EfdInteractor:
             self.navigator.fechar_tela(1.5)
             return False
             
-        elif rota == self.img_path.arquivo_nao_encontrado:
-            log.user.warning(f'Arquivo {file_path} não foi encontrado! Verifique se o arquivo ainda existe ou se o nome foi alterado')
+        elif rota in (self.img_path.arquivo_nao_encontrado, self.img_path.arquivo_nao_encontrado2, self.img_path.erro):
+            if rota in (self.img_path.arquivo_nao_encontrado, self.img_path.arquivo_nao_encontrado2):
+                log.user.warning(f'Arquivo {file_path} não foi encontrado! Verifique se o arquivo ainda existe ou se o nome foi alterado')
+            self.navigator.sconfirmar()
             return False
         
         # 2° Rota

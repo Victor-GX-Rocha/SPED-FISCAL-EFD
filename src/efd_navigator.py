@@ -33,6 +33,13 @@ class EfdNavigator:
         if espere:
             time.sleep(espere)
         pag.press('enter')
+    
+    @staticmethod
+    def sconfirmar(espere: float = 0) -> None:
+        """ Confirma com 'space' ao invés de 'enter' """
+        if espere:
+            time.sleep(espere)
+        pag.press('enter')
 
     @staticmethod
     def espere_carregar(espere: float = 0) -> None:

@@ -42,10 +42,14 @@ class BatchProcessor:
         try:
             
             success: bool = self.ei.realizar_escrituracao(full_path)
-            if not success:
-                mover_arquivo(full_path, DestinyFolders.ERRO)
-            mover_arquivo(full_path, DestinyFolders.PROCESSADO)
+            destino = DestinyFolders.PROCESSADO if success else DestinyFolders.ERRO
+            mover_arquivo(full_path, destino)
+            
+            log.user.info(f"Arquivo {full_path} {'processado' if success else 'com erro'} -> {destino}")
+            
+            return success
             
         except Exception as e:
             log.dev.exception(f"Falha ao processar {full_path}: {e}")
-            return 
+            mover_arquivo(full_path, DestinyFolders.ERRO)
+            return False

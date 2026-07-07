@@ -26,6 +26,7 @@ class ImgPaths:
     arquivo_nao_encontrado2: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\arquivo_nao_encontrado2.png')
     atualizar_tabelas: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\atualizar_tabelas.png')
     validado_com_sucesso: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\validado_com_sucesso.png')
+    erro: str = normalize_path(r'imgs\erro.png')
 
 def mover_arquivo(file_path: str, dest_dir: DestinyFolders):
     """Move o arquivo para o diretório de destino (processado ou erro)."""
