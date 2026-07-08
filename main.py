@@ -22,6 +22,8 @@ def main() -> None:
         
         processor = BatchProcessor(ei)
         processor.processar(pastas)
+    except KeyboardInterrupt as k:
+        log.user.info('Comando: Desligar programa.')
     except Exception as e:
         log.dev.exception(f'Exceção global: {e}')
 

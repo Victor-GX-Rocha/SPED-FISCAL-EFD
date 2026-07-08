@@ -17,16 +17,33 @@ def normalize_path(path: str) -> str:
 @dataclass
 class ImgPaths:
     """ Um caminho direto e organizado para as imagens. """
+    # mains
     tela_inicial: str = normalize_path(r'imgs\tela_inicial.png')
-    escrituracao_ja_existe: str = normalize_path(r'imgs\Escrituracao-ja-existe.png')
-    importacao_exito: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\importacao exito.png')
-    escrituracao_fiscal: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\Escrituracao_fiscal.png')
-    importacao_nao_realizada: str = r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\importacao_nao_realizada.png'
-    arquivo_nao_encontrado: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\arquivo_nao_encontrado.png')
-    arquivo_nao_encontrado2: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\arquivo_nao_encontrado2.png')
-    atualizar_tabelas: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\atualizar_tabelas.png')
-    validado_com_sucesso: str = normalize_path(r'C:\Users\Administrador\OneDrive\12-PROJECTS\SPED-FISCAL-EFD-2\imgs\validado_com_sucesso.png')
+    tela_inicial_validacao: str = normalize_path(r'imgs\tela_inicial_validacao.png')
     erro: str = normalize_path(r'imgs\erro.png')
+    aviso: str = normalize_path(r'imgs\aviso.png')
+    info: str = normalize_path(r'imgs\info.png')
+    gray_bar: str = normalize_path(r'imgs\gray_bar.png')
+    sucesso: str = normalize_path(r'imgs\sucesso.png')
+    resultado_importacao: str = normalize_path(r'imgs\resultado_importacao.png')
+    loading_cancelar: str = normalize_path(r'imgs\loading_cancelar.png')
+    
+    # Intermediárias
+    relatorio_erros: str = normalize_path(r'imgs\relatorio_erros.png')
+    
+    
+    escrituracao_ja_existe: str = normalize_path(r'imgs\Escrituracao-ja-existe.png')
+    importacao_exito: str = normalize_path(r'imgs\importacao exito.png')
+    escrituracao_fiscal: str = normalize_path(r'imgs\Escrituracao_fiscal.png')
+    importacao_nao_realizada: str = r'imgs\importacao_nao_realizada.png'
+    arquivo_nao_encontrado: str = normalize_path(r'imgs\arquivo_nao_encontrado.png')
+    arquivo_nao_encontrado2: str = normalize_path(r'imgs\arquivo_nao_encontrado2.png')
+    atualizar_tabelas: str = normalize_path(r'imgs\atualizar_tabelas.png')
+    validado_com_sucesso: str = normalize_path(r'imgs\validado_com_sucesso.png')
+    arquivo_contem_erros: str = normalize_path(r'imgs\arquivo_contem_erros.png')
+    pendencia_validacao: str = normalize_path(r'imgs\pendencia_validacao.png')
+    
+    
 
 def mover_arquivo(file_path: str, dest_dir: DestinyFolders):
     """Move o arquivo para o diretório de destino (processado ou erro)."""

@@ -3,6 +3,7 @@
 import time
 import pyautogui as pag
 
+pag.FAILSAFE = True
 
 class EfdNavigator:
     """ Executa comandos de teclado no EFD """

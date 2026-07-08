@@ -1,4 +1,5 @@
 
+import os
 import time
 import pyautogui as pag
 from typing import Iterable
@@ -102,6 +103,7 @@ class PagTools:
                 exists = pag.locateCenterOnScreen(img_path, confidence=confidence)
                 if not exists:
                     return True
+                print(f'- Esperando elemento sumir... {os.path.basename(img_path)}')
                 time.sleep(intervalo_espera)
             else:
                 raise TimeoutError(f'Tempo de espera excedido e o elemento {img_path} ainda está na tela!')
@@ -135,6 +137,7 @@ class PagTools:
             while time.time() - start < limite_espera:
                 for img_path in img_paths:
                     try:
+                        print(f'- Varrendo... {os.path.basename(img_path)}')
                         resultado = pag.locateCenterOnScreen(img_path, confidence=confidence)
                         if resultado:
                             return img_path
