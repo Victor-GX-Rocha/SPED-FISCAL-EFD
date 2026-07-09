@@ -1,5 +1,11 @@
 """ Execution file """
 
+from dotenv import load_dotenv
+import sys
+import pyautogui as pag
+pag.FAILSAFE = True
+load_dotenv()
+
 from src import log
 from src.paths import ImgPaths
 from src.pag_tools import PagTools
@@ -22,11 +28,17 @@ def main() -> None:
         
         processor = BatchProcessor(ei)
         processor.processar(pastas)
+    except pag.FailSafeException:
+        sys.exit(0)
     except KeyboardInterrupt as k:
         log.user.info('Comando: Desligar programa.')
+    except SystemExit:
+        sys.exit(0)
     except Exception as e:
         log.dev.exception(f'Exceção global: {e}')
+        sys.exit(1)
 
 
 if __name__ == '__main__':
     main()
+    input('Aperte enter para fechar a janela')

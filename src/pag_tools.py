@@ -1,4 +1,5 @@
 
+import sys
 import os
 import time
 import pyautogui as pag
@@ -9,6 +10,12 @@ from src import log
 pag.FAILSAFE = True
 
 class PagTools:
+    def _handle_fail_safe_error(self) -> None:
+        """  """
+        print(">>> Failsafe acionado! Encerrando...")
+        log.user.info(f'Comando delisgar ativado! Desligando o programa de forma segura... \nMover o mouse para um dos cantos da tela desliga a automação.')
+        sys.exit()
+    
     def verificar_elemento(
             self,
             img_path: str, 
@@ -24,6 +31,10 @@ class PagTools:
         except pag.ImageNotFoundException:
             print(f"Erro: Imagem {img_path} não está visível na tela.")
             return False
+        except pag.FailSafeException:
+            self._handle_fail_safe_error()
+        except Exception as e:
+            log.dev.exception(f"Erro inesperado ao buscar {img_path}: {e}")
 
     def espere_elemento(
             self,
@@ -44,11 +55,18 @@ class PagTools:
                         return True
                 except pag.ImageNotFoundException:
                     pass
+                except pag.FailSafeException:
+                    self._handle_fail_safe_error()
+                except Exception as e:
+                    log.dev.exception(f"Erro inesperado ao buscar {img_path}: {e}")
+                    raise
                 time.sleep(intervalo_espera)
             else:
                 raise TimeoutError(f'Tempo de espera de {limite_espera} para | {img_path} | excedido!')
         except TimeoutError as t:
             log.dev.error(f"{img_path} | TimeoutError: {str(t)}")
+        except pag.FailSafeException:
+            self._handle_fail_safe_error()
             return False
         except Exception as e:
             log.dev.exception(f"Erro inesperado durante espera por elemento! | {img_path} | {e}")
@@ -85,6 +103,8 @@ class PagTools:
         except TimeoutError as t:
             log.user.error(t)
             return False
+        except pag.FailSafeException:
+            self._handle_fail_safe_error()
         except Exception as e:
             log.dev.error(f"Erro inesperado durante espera por elemento! | {img_paths} | {e}")
 
@@ -113,6 +133,8 @@ class PagTools:
         except TimeoutError as t:
             log.dev.warning(t)
             return False
+        except pag.FailSafeException:
+            self._handle_fail_safe_error()
         except Exception as e:
             print(f'Erro inesperado durante espera de um elemento sumir {e}')
 
@@ -142,15 +164,22 @@ class PagTools:
                         if resultado:
                             return img_path
                     except pag.ImageNotFoundException:
-                        pass
+                        continue
+                    except pag.FailSafeException:
+                        self._handle_fail_safe_error()
+                    except Exception as e:
+                        log.dev.exception(f"Erro inesperado ao buscar {img_path}: {e}")
                 time.sleep(intervalo_espera)
             else:
                 raise TimeoutError(f'Tempo limite de espera de {limite_espera} para | {img_paths} | excedido!')
+        except pag.FailSafeException:
+            self._handle_fail_safe_error()
         except TimeoutError as t:
             log.dev.exception(t)
             return False
         except Exception as e:
             log.dev.exception(f"Erro inesperado durante espera por elemento! | {img_paths} | {e}")
+            return 
 
 """
 Ideia! Criar um sistema de rotas.

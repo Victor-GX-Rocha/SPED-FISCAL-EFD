@@ -6,6 +6,9 @@ docs
 processado
 erro
 old
+build
+dist
+*.rar
 *.log
 *.ipynb
 *.txt

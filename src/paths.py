@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import shutil
 import pyautogui as pag
@@ -14,34 +15,45 @@ def normalize_path(path: str) -> str:
     return path.strip().replace("'", "").replace('"', '').replace('\\', '/')
 
 
+def resource_path(relative_path: str) -> str:
+    """Retorna o caminho absoluto para um recurso, baseado no diretório do executável (ou do script em desenvolvimento)."""
+    if getattr(sys, 'frozen', False):
+        # Estamos rodando como executável (PyInstaller)
+        base_path = os.path.dirname(sys.executable)
+    else:
+        # Em desenvolvimento (script Python)
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
+
+
 @dataclass
 class ImgPaths:
     """ Um caminho direto e organizado para as imagens. """
     # mains
-    tela_inicial: str = normalize_path(r'imgs\tela_inicial.png')
-    tela_inicial_validacao: str = normalize_path(r'imgs\tela_inicial_validacao.png')
-    erro: str = normalize_path(r'imgs\erro.png')
-    aviso: str = normalize_path(r'imgs\aviso.png')
-    info: str = normalize_path(r'imgs\info.png')
-    gray_bar: str = normalize_path(r'imgs\gray_bar.png')
-    sucesso: str = normalize_path(r'imgs\sucesso.png')
-    resultado_importacao: str = normalize_path(r'imgs\resultado_importacao.png')
-    loading_cancelar: str = normalize_path(r'imgs\loading_cancelar.png')
+    tela_inicial: str = resource_path(r'imgs\tela_inicial.png')
+    tela_inicial_validacao: str = resource_path(r'imgs\tela_inicial_validacao.png')
+    erro: str = resource_path(r'imgs\erro.png')
+    aviso: str = resource_path(r'imgs\aviso.png')
+    info: str = resource_path(r'imgs\info.png')
+    gray_bar: str = resource_path(r'imgs\gray_bar.png')
+    sucesso: str = resource_path(r'imgs\sucesso.png')
+    resultado_importacao: str = resource_path(r'imgs\resultado_importacao.png')
+    loading_cancelar: str = resource_path(r'imgs\loading_cancelar.png')
     
     # Intermediárias
-    relatorio_erros: str = normalize_path(r'imgs\relatorio_erros.png')
+    relatorio_erros: str = resource_path(r'imgs\relatorio_erros.png')
     
     
-    escrituracao_ja_existe: str = normalize_path(r'imgs\Escrituracao-ja-existe.png')
-    importacao_exito: str = normalize_path(r'imgs\importacao exito.png')
-    escrituracao_fiscal: str = normalize_path(r'imgs\Escrituracao_fiscal.png')
+    escrituracao_ja_existe: str = resource_path(r'imgs\Escrituracao-ja-existe.png')
+    importacao_exito: str = resource_path(r'imgs\importacao exito.png')
+    escrituracao_fiscal: str = resource_path(r'imgs\Escrituracao_fiscal.png')
     importacao_nao_realizada: str = r'imgs\importacao_nao_realizada.png'
-    arquivo_nao_encontrado: str = normalize_path(r'imgs\arquivo_nao_encontrado.png')
-    arquivo_nao_encontrado2: str = normalize_path(r'imgs\arquivo_nao_encontrado2.png')
-    atualizar_tabelas: str = normalize_path(r'imgs\atualizar_tabelas.png')
-    validado_com_sucesso: str = normalize_path(r'imgs\validado_com_sucesso.png')
-    arquivo_contem_erros: str = normalize_path(r'imgs\arquivo_contem_erros.png')
-    pendencia_validacao: str = normalize_path(r'imgs\pendencia_validacao.png')
+    arquivo_nao_encontrado: str = resource_path(r'imgs\arquivo_nao_encontrado.png')
+    arquivo_nao_encontrado2: str = resource_path(r'imgs\arquivo_nao_encontrado2.png')
+    atualizar_tabelas: str = resource_path(r'imgs\atualizar_tabelas.png')
+    validado_com_sucesso: str = resource_path(r'imgs\validado_com_sucesso.png')
+    arquivo_contem_erros: str = resource_path(r'imgs\arquivo_contem_erros.png')
+    pendencia_validacao: str = resource_path(r'imgs\pendencia_validacao.png')
     
     
 

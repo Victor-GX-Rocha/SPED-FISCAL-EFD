@@ -245,7 +245,7 @@ class EfdInteractor(Routes):
             log.user.warning(f'Arquivo {file_path} não foi encontrado! Verifique se o arquivo ainda existe ou se o nome foi alterado')
             return False
         
-        self.atualizar_tabelas()
+        self.navigator.atualizar_tabelas()
         
         while True:
             try:
