@@ -40,7 +40,7 @@ class EfdNavigator:
         """ Confirma com 'space' ao invés de 'enter' """
         if espere:
             time.sleep(espere)
-        pag.press('enter')
+        pag.press('space')
 
     @staticmethod
     def espere_carregar(espere: float = 0) -> None:

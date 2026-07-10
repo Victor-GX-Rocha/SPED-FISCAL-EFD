@@ -181,6 +181,18 @@ class PagTools:
             log.dev.exception(f"Erro inesperado durante espera por elemento! | {img_paths} | {e}")
             return 
 
+    def clicar(self, img_path: str) -> None:
+        """ Aciona um click de foma segura """
+        try:
+            print(f'> Clicando na imagem: {os.path.basename(img_path)}')
+            pag.click(img_path)
+        except pag.FailSafeException:
+            self._handle_fail_safe_error()
+        except pag.ImageNotFoundException:
+            print('Imagem não encontrada!')
+        except Exception as e:
+            log.dev.exception(f"Erro inesperado durante espera por elemento! | {img_path} | {e}")
+            return 
 """
 Ideia! Criar um sistema de rotas.
 Como ralizar uma operação pode levar a telas diferentes, eu posso criar um método que direcione para uma rota específica.

@@ -11,7 +11,7 @@ from src import log
 from src.efd_navigator import EfdNavigator
 from src.paths import ImgPaths
 from src.pag_tools import PagTools
-from src.env_data import EnvData
+from src.env_data import EnvData, WaitLimit
 from src.window_manager import WindowManager
 
 import time
@@ -67,9 +67,24 @@ class Routes:
         self._selecionar_arquivo_escrituracao(file_path)
     
     def atualizar_tabelas(self):
-        print('> Atualizando tabelas.')
-        self.navigator.confirmar(1)
-        self.navigator.confirmar(1)
+        rota: str = self.pag_tools.escolher_rota(
+            img_paths=[
+                self.img_path.atualizar_tabelas,
+                self.img_path.atualizar_tabelas_2,
+                ],
+            limite_espera=90
+        )
+        if rota in (self.img_path.atualizar_tabelas,):
+            print('> Atualizando tabelas.')
+            self.navigator.confirmar(1)
+            self.navigator.confirmar(1)
+            
+        elif rota in (self.img_path.atualizar_tabelas_2, ):
+            self.pag_tools.clicar(self.img_path.atualizar_tabelas_2_ok)
+            self.navigator.confirmar()
+        
+        elif rota in (self.img_path.aviso, ):
+            self.aviso()
     
     def aviso(self):
         print('>> Idenfificado: tela de aviso.')
@@ -133,6 +148,16 @@ class Routes:
     def loading_cancelar(self):
         """  """
         print(f'>> Iniciando loading.')
+        rota: str = self.pag_tools.escolher_rota(
+            img_paths=[
+                self.img_path.atualizar_tabelas,
+                self.img_path.atualizar_tabelas_2,
+                self.img_path.aviso,
+                ],
+            limite_espera=60
+        )
+        if rota in (self.img_path.atualizar_tabelas, self.img_path.atualizar_tabelas_2):
+            self.atualizar_tabelas()
         self.pag_tools.espere_elemento_sumir(self.img_path.loading_cancelar, limite_espera=90)
 
     def resultado_importacao(self):
@@ -184,7 +209,7 @@ class EfdInteractor(Routes):
             
             # Verifica, antes começar, se a tela inicial do SPED está visível.
             print('Iniciando espera pela tela inicial')
-            if not self.pag_tools.espere_elemento(self.img_path.tela_inicial, limite_espera=120):
+            if not self.pag_tools.espere_elemento(self.img_path.tela_inicial, limite_espera=WaitLimit.LE_TELA_INICIAL):
                 messagebox.showwarning(
                     "Aviso", "O aplicativo do governo SPED EFD não está visivel na tela. Por favor, deixe-o em foco. \nO tempo de limite de espera pelo aplicativo foi excedido. Desligando o programa..."
                 )
@@ -253,10 +278,10 @@ class EfdInteractor(Routes):
                     img_paths=[
                         self.img_path.tela_inicial,
                         self.img_path.erro,
-                        self.img_path.loading_cancelar,
-                        self.img_path.aviso,
                         self.img_path.atualizar_tabelas,
+                        self.img_path.aviso,
                         self.img_path.info,
+                        self.img_path.loading_cancelar,
                         self.img_path.gray_bar,
                         self.img_path.resultado_importacao
                         ],

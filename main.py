@@ -41,4 +41,23 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-    input('Aperte enter para fechar a janela')
+    # pyinstaller --onedir --add-data "imgs;imgs" --add-data ".env;." --name SpedProcessor main.py                                                              
+    # pyinstaller --onedir --noconsole --add-data "imgs;imgs" --add-data ".env;." --name SpedProcessor main.py
+
+    """
+    Alterações:
+    Ao abrir o programa ---
+    
+    Se, no arquivo .env "REDIMENSIONAR_IMAGENS=True" 
+        > Ele vai pegar a resolução real do monitor atual do dispositivo.
+        Se for igual 1980x1280: (o tamanho original utilziado)
+            Ele simplesmente pega a base de dados original.
+        Se não:
+            Ele converte as imagens para a proporção adequada (usando os dados que obeteve antes).
+    Se não:
+        Só passa direto.
+    
+    # O arquivo .env também pode ter a opção de inserir esses dados manualmente:
+        RESOLUCAO_DA_TELA=1080x800
+        USAR_RESOLUCAO_MANUAL=False
+    """

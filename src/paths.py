@@ -25,35 +25,43 @@ def resource_path(relative_path: str) -> str:
         base_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(base_path, relative_path)
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent # sobe dois níveis (src/paths.py)
+IMG_DIR = BASE_DIR / 'imgs'
 
 @dataclass
 class ImgPaths:
     """ Um caminho direto e organizado para as imagens. """
     # mains
-    tela_inicial: str = resource_path(r'imgs\tela_inicial.png')
-    tela_inicial_validacao: str = resource_path(r'imgs\tela_inicial_validacao.png')
-    erro: str = resource_path(r'imgs\erro.png')
-    aviso: str = resource_path(r'imgs\aviso.png')
-    info: str = resource_path(r'imgs\info.png')
-    gray_bar: str = resource_path(r'imgs\gray_bar.png')
-    sucesso: str = resource_path(r'imgs\sucesso.png')
-    resultado_importacao: str = resource_path(r'imgs\resultado_importacao.png')
-    loading_cancelar: str = resource_path(r'imgs\loading_cancelar.png')
+    tela_inicial: str = str(IMG_DIR / 'tela_inicial.png')
+    tela_inicial_validacao: str = str(IMG_DIR / 'tela_inicial_validacao.png')
+    erro: str = str(IMG_DIR / 'erro.png')
+    aviso: str = str(IMG_DIR / 'aviso.png')
+    info: str = str(IMG_DIR / 'info.png')
+    gray_bar: str = str(IMG_DIR / 'gray_bar.png')
+    sucesso: str = str(IMG_DIR / 'sucesso.png')
+    resultado_importacao: str = str(IMG_DIR / 'resultado_importacao.png')
+    loading_cancelar: str = str(IMG_DIR / 'loading_cancelar.png')
     
     # Intermediárias
-    relatorio_erros: str = resource_path(r'imgs\relatorio_erros.png')
+    relatorio_erros: str = str(IMG_DIR / 'relatorio_erros.png')
     
     
-    escrituracao_ja_existe: str = resource_path(r'imgs\Escrituracao-ja-existe.png')
-    importacao_exito: str = resource_path(r'imgs\importacao exito.png')
-    escrituracao_fiscal: str = resource_path(r'imgs\Escrituracao_fiscal.png')
-    importacao_nao_realizada: str = r'imgs\importacao_nao_realizada.png'
-    arquivo_nao_encontrado: str = resource_path(r'imgs\arquivo_nao_encontrado.png')
-    arquivo_nao_encontrado2: str = resource_path(r'imgs\arquivo_nao_encontrado2.png')
-    atualizar_tabelas: str = resource_path(r'imgs\atualizar_tabelas.png')
-    validado_com_sucesso: str = resource_path(r'imgs\validado_com_sucesso.png')
-    arquivo_contem_erros: str = resource_path(r'imgs\arquivo_contem_erros.png')
-    pendencia_validacao: str = resource_path(r'imgs\pendencia_validacao.png')
+    escrituracao_ja_existe: str = str(IMG_DIR / 'Escrituracao-ja-existe.png')
+    importacao_exito: str = str(IMG_DIR / 'importacao exito.png')
+    escrituracao_fiscal: str = str(IMG_DIR / 'Escrituracao_fiscal.png')
+    importacao_nao_realizada: str = str(IMG_DIR / 'importacao_nao_realizada.png')
+    arquivo_nao_encontrado: str = str(IMG_DIR / 'arquivo_nao_encontrado.png')
+    arquivo_nao_encontrado2: str = str(IMG_DIR / 'arquivo_nao_encontrado2.png')
+    
+    atualizar_tabelas: str = str(IMG_DIR / 'atualizar_tabelas.png')
+    atualizar_tabelas_2: str = str(IMG_DIR / 'atualizar_tabelas_2.png')
+    atualizar_tabelas_2_ok: str = str(IMG_DIR / 'atualizar_tabelas_2_ok.png')
+    
+    validado_com_sucesso: str = str(IMG_DIR / 'validado_com_sucesso.png')
+    arquivo_contem_erros: str = str(IMG_DIR / 'arquivo_contem_erros.png')
+    pendencia_validacao: str = str(IMG_DIR / 'pendencia_validacao.png')
     
     
 
